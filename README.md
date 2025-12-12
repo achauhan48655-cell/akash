@@ -1,1 +1,321 @@
-# akash
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Modern Premium Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Fonts -->
+<link href="c:\Users\akash kumar\OneDrive\Pictures\lamborghini black.jpg" rel="stylesheet">
+
+<style>
+/* ---------------- GLOBAL STYLE ---------------- */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:url("c:\Users\akash kumar\OneDrive\Pictures\lamborghini black.jpg");
+  background-size:cover;
+  background-attachment:fixed;
+  background-position:center;
+  color:#fff;
+}
+
+/* Glass + Shadow Card */
+.section{
+  min-height:100vh;
+  padding:80px 10%;
+  backdrop-filter:blur(10px);
+  background:#000000e9;
+  margin:30px 0;
+  border-radius:20px;
+  box-shadow:0 0 30px rgba(0,255,255,0.6);
+  animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ---------------- NAVIGATION ---------------- */
+nav{
+  width:100%;
+  position:fixed;
+  top:0;
+  left:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px);
+  padding:15px 10%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 0 25px cyan;
+  z-index:10;
+}
+
+nav h1{
+  font-size:25px;
+  font-weight:700;
+  color:#00eaff;
+  text-shadow:0 0 20px #00eaff;
+}
+
+nav ul{
+  display:flex;
+  gap:30px;
+}
+
+nav ul li{
+  list-style:none;
+}
+
+nav ul li a{
+  text-decoration:none;
+  font-size:18px;
+  color:white;
+  transition:0.3s;
+}
+
+nav ul li a:hover{
+  color:#ff00ff;
+  text-shadow:0 0 10px #ff00ff;
+  transform:scale(1.1);
+}
+
+/* ---------------- HOME PAGE ---------------- */
+.hero{
+  text-align:center;
+  padding-top:120px;
+}
+
+.hero h2{
+  font-size:60px;
+  color:#00eaff;
+  text-shadow:0 0 20px cyan;
+  animation:floating 3s infinite ease-in-out;
+}
+
+@keyframes floating{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+  100%{transform:translateY(0);}
+}
+
+.hero p{
+  font-size:22px;
+  margin-top:10px;
+  color:#ffb3ff;
+  text-shadow:0 0 15px #ff00ff;
+}
+
+/* 3D Rotating Box */
+.cube{
+  margin:80px auto;
+  width:160px;
+  height:160px;
+  transform-style:preserve-3d;
+  animation:rotateCube 6s linear infinite;
+}
+
+@keyframes rotateCube{
+  0%{transform:rotateX(0deg) rotateY(0deg);}
+  100%{transform:rotateX(360deg) rotateY(360deg);}
+}
+
+.cube div{
+  position:absolute;
+  width:160px;
+  height:160px;
+  background:linear-gradient(135deg,#00eaff,#ff00ff);
+  opacity:0.9;
+  border:3px solid #fff;
+  box-shadow:0 0 25px #00eaff;
+}
+
+.front{transform:translateZ(80px);}
+.back{transform:rotateY(180deg) translateZ(80px);}
+.right{transform:rotateY(90deg) translateZ(80px);}
+.left{transform:rotateY(-90deg) translateZ(80px);}
+.top{transform:rotateX(90deg) translateZ(80px);}
+.bottom{transform:rotateX(-90deg) translateZ(80px);}
+
+/* ---------------- ABOUT PAGE ---------------- */
+.about-content{
+  display:flex;
+  align-items:center;
+  gap:40px;
+  flex-wrap:wrap;
+  margin: 100;
+}
+
+.about-content img{
+  width:300px;
+  height:300px;
+  border-radius:50px;
+  object-fit:cover;
+  box-shadow:0 0 30px magenta;
+}
+
+.about-content p{
+  font-size:20px;
+  line-height:30px;
+}
+
+/* ---------------- PROJECTS ---------------- */
+.projects{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+  margin: 40px; 
+}
+
+.project-card{
+  background:rgba(255,255,255,0.1);
+  padding:40px;
+  border-radius:20px;
+  box-shadow:0 0 25px #00eaff;
+  transition:0.4s;
+  margin:40px;
+}
+
+.project-card:hover{
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 0 35px #ff00ff;
+}
+
+.project-card h3{
+  color:#00eaff;
+}
+
+/* ---------------- CONTACT ---------------- */
+.contact form{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  max-width:400px;
+}
+
+input,textarea{
+  padding:15px;
+  border:none;
+  border-radius:10px;
+  outline:none;
+  font-size:16px;
+}
+
+button{
+  padding:15px;
+  background:linear-gradient(90deg,#00eaff,#ff00ff);
+  border:none;
+  border-radius:10px;
+  color:#000;
+  font-weight:700;
+  cursor:pointer;
+  font-size:18px;
+  box-shadow:0 0 20px cyan;
+}
+
+button:hover{
+  transform:scale(1.1);
+}
+</style>
+</head>
+<body>
+
+<!-- ---------------- NAV ---------------- -->
+<nav>
+  <h1>My Portfolio</h1>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ---------------- HOME ---------------- -->
+<section class="section" id="home">
+  <div class="hero">
+    <h2>Hi, I'm Akash</h2>
+    <p>Creative Developer • Designer • Animator</p>
+
+    <!-- 3D Animation -->
+    <div class="cube">
+      <div class="front"></div>
+      <div class="back"></div>
+      <div class="right"></div>
+      <div class="left"></div>
+      <div class="top"></div>
+      <div class="bottom"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- ABOUT ---------------- -->
+<section class="section" id="about">
+  <h2 style="color:#00eaff; text-shadow:0 0 20px cyan;">About Me</h2>
+  <div class="about-content">
+    <img src="c:\Users\akash kumar\OneDrive\Pictures\Documents\Programming\Javascript\akash image.jpg" alt="">
+    <p>
+      I'm a creative full-stack developer passionate about 3D animations,  
+      neon UI, premium design, and next-level colourful websites.  
+      I build modern digital experiences with motion, shadows and style.
+    </p>
+  </div>
+</section>
+
+<!-- ---------------- PROJECTS ---------------- -->
+<section class="section" id="projects">
+  <h2 style="color:#ff00ff; text-shadow:0 0 20px #ff00ff;"><br>My Projects</h2>
+
+  <div class="projects">
+    <div class="project-card">
+      <h3> calculater</h3>
+      <p></p>
+       <a href="file:///C:/Users/akash%20kumar/OneDrive/Desktop/akashh/calculater.html">calculater</a>
+    </div>
+      
+    </div>
+
+    <div class="project-card">
+      <h3>Digital Clock</h3>
+      <p> </p>
+      <a href="file:///C:/Users/akash%20kumar/OneDrive/Desktop/akashh/clockdeee.html">clock</a>
+    </div>
+
+    <div class="project-card">
+      <h3></h3>
+      <p>3D stylish clock built using JS.</p>
+      <a href=""></a>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- CONTACT ---------------- -->
+<section class="section" id="contact">
+  <h2 style="color:#00eaff; text-shadow:0 0 20px cyan;">Contact Me</h2>
+
+  <div class="contact">
+    <form onsubmit="sendMsg(event)">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" rows="5"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<script>
+function sendMsg(e){
+  e.preventDefault();
+  alert("Message Sent Successfully!");
+}
+</script>
+
+</body>
+</html>
