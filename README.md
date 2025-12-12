@@ -1,1742 +1,462 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Akash | Digital Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
-
-  <style>
-    :root {
-      --bg-main: #050816;
-      --bg-elevated: #0b1020;
-      --accent-blue: #14b8ff;
-      --accent-yellow: #ffd54f;
-      --accent-white: #f5f5f5;
-      --text-muted: #9ca3af;
-      --border-glow: 0 0 18px rgba(20, 184, 255, 0.7);
-      --transition-fast: 0.25s ease;
-      --radius-lg: 18px;
-      --radius-xl: 26px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #071425 0, #050816 45%, #020617 100%);
-      color: var(--accent-white);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Neon background accents */
-    .bg-glow {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .bg-glow::before,
-    .bg-glow::after {
-      content: "";
-      position: absolute;
-      width: 420px;
-      height: 420px;
-      background: radial-gradient(circle, rgba(20, 184, 255, 0.26), transparent 70%);
-      filter: blur(8px);
-      opacity: 0.7;
-    }
-
-    .bg-glow::before {
-      top: -80px;
-      left: -40px;
-    }
-
-    .bg-glow::after {
-      bottom: -120px;
-      right: -40px;
-      background: radial-gradient(circle, rgba(255, 214, 79, 0.22), transparent 70%);
-    }
-
-    /* Navbar */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      backdrop-filter: blur(18px);
-      background: linear-gradient(to right, rgba(5, 8, 22, 0.94), rgba(5, 8, 22, 0.88));
-      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-    }
-
-    .nav-container {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0.75rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.25rem;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .brand-logo {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: radial-gradient(circle, var(--accent-blue), #0f172a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Orbitron", system-ui, sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      box-shadow: var(--border-glow);
-    }
-
-    .brand-text-main {
-      font-family: "Orbitron", system-ui, sans-serif;
-      font-size: 1.05rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .brand-text-sub {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 1.25rem;
-      font-size: 0.92rem;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--text-muted);
-      position: relative;
-      padding-bottom: 0.25rem;
-      transition: color var(--transition-fast);
-    }
-
-    nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(to right, var(--accent-blue), var(--accent-yellow));
-      transition: width var(--transition-fast);
-    }
-
-    nav a:hover {
-      color: var(--accent-white);
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    /* Layout */
-    main {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 1.75rem 1.25rem 3rem;
-    }
-
-    section {
-      padding: 4rem 0 2rem;
-      scroll-margin-top: 80px;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      margin-bottom: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      font-family: "Orbitron", system-ui, sans-serif;
-    }
-
-    .section-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      max-width: 620px;
-    }
-
-    /* Hero / Home */
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-      gap: 2.5rem;
-      align-items: center;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.18rem 0.75rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      background: radial-gradient(circle at top left, rgba(20, 184, 255, 0.18), transparent 60%);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--accent-white);
-      margin-bottom: 0.9rem;
-    }
-
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--accent-blue);
-      box-shadow: 0 0 12px rgba(20, 184, 255, 0.8);
-    }
-
-    .hero-title {
-      font-size: clamp(2.1rem, 5vw, 2.8rem);
-      font-weight: 600;
-      line-height: 1.15;
-      margin-bottom: 0.7rem;
-    }
-
-    .hero-title span {
-      background: linear-gradient(to right, var(--accent-blue), var(--accent-yellow));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .hero-text {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      max-width: 540px;
-      margin-bottom: 1.3rem;
-    }
-
-    .hero-highlight {
-      font-size: 0.85rem;
-      color: var(--accent-white);
-      border-left: 3px solid var(--accent-blue);
-      padding-left: 0.75rem;
-      margin-bottom: 1.4rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.85rem;
-    }
-
-    .btn-primary,
-    .btn-ghost {
-      border-radius: 999px;
-      padding: 0.55rem 1.4rem;
-      font-size: 0.9rem;
-      cursor: pointer;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow));
-      color: #020617;
-      font-weight: 600;
-      box-shadow: 0 12px 30px rgba(20, 184, 255, 0.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 40px rgba(20, 184, 255, 0.45);
-    }
-
-    .btn-ghost {
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.7);
-      color: var(--accent-white);
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 18px rgba(20, 184, 255, 0.45);
-    }
-
-    .hero-card {
-      border-radius: var(--radius-xl);
-      background: radial-gradient(circle at top, rgba(20, 184, 255, 0.14), transparent 50%), radial-gradient(circle at bottom, rgba(255, 214, 79, 0.12), transparent 55%), #020617;
-      border: 1px solid rgba(148, 163, 184, 0.40);
-      padding: 1.6rem 1.3rem;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.9), var(--border-glow);
-    }
-
-    .hero-card-orbit {
-      position: absolute;
-      inset: 14px;
-      border-radius: inherit;
-      border: 1px dashed rgba(148, 163, 184, 0.35);
-      opacity: 0.75;
-    }
-
-    .hero-card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .tag {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      padding: 0.23rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      backdrop-filter: blur(8px);
-      background: rgba(15, 23, 42, 0.8);
-      color: var(--accent-white);
-    }
-
-    .hero-metrics {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.85rem;
-      font-size: 0.75rem;
-    }
-
-    .metric {
-      padding: 0.75rem 0.7rem;
-      border-radius: 14px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.85);
-    }
-
-    .metric-label {
-      color: var(--text-muted);
-      font-size: 0.7rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .metric-value {
-      font-family: "Orbitron", system-ui, sans-serif;
-      font-size: 1.05rem;
-    }
-
-    /* About Section */
-    .about-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 3.2fr) minmax(0, 2.2fr);
-      gap: 2rem;
-      margin-top: 1.75rem;
-    }
-
-    .about-card {
-      background: rgba(15, 23, 42, 0.95);
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      padding: 1.4rem 1.3rem;
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
-    }
-
-    .about-card h3 {
-      font-size: 1.02rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .about-text {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .about-list {
-      margin-top: 0.75rem;
-      font-size: 0.86rem;
-      color: var(--accent-white);
-    }
-
-    .about-list li {
-      margin-bottom: 0.45rem;
-    }
-
-    .about-list span {
-      color: var(--accent-blue);
-    }
-
-    .timeline {
-      margin-top: 0.9rem;
-      border-left: 2px dashed rgba(148, 163, 184, 0.6);
-      padding-left: 0.85rem;
-    }
-
-    .timeline-item {
-      margin-bottom: 0.6rem;
-    }
-
-    .timeline-title {
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-
-    .timeline-meta {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    /* Projects Section */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 1.25rem;
-      margin-top: 1.75rem;
-    }
-
-    .project-card {
-      position: relative;
-      padding: 1rem 1rem 0.95rem;
-      border-radius: var(--radius-lg);
-      background: radial-gradient(circle at top, rgba(20, 184, 255, 0.16), transparent 60%), rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.9);
-      cursor: pointer;
-      overflow: hidden;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    .project-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent-blue);
-      box-shadow: 0 18px 40px rgba(20, 184, 255, 0.3);
-    }
-
-    .project-chip {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--accent-yellow);
-      margin-bottom: 0.4rem;
-    }
-
-    .project-title {
-      font-size: 1rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .project-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-bottom: 0.8rem;
-    }
-
-    .project-open {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.8rem;
-      color: var(--accent-blue);
-    }
-
-    .project-open span {
-      font-size: 1rem;
-    }
-
-    /* Modal */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 6, 23, 0.92);
-      backdrop-filter: blur(16px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-      z-index: 60;
-    }
-
-    .modal.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-inner {
-      background: radial-gradient(circle at top, rgba(20, 184, 255, 0.14), transparent 55%), rgba(15, 23, 42, 0.97);
-      border-radius: 22px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      max-width: 880px;
-      width: 100%;
-      max-height: 90vh;
-      padding: 1.25rem 1.25rem 1.4rem;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 30px 80px rgba(2, 6, 23, 0.95), var(--border-glow);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.7rem;
-    }
-
-    .modal-title {
-      font-size: 1.1rem;
-      font-family: "Orbitron", system-ui, sans-serif;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .modal-close {
-      border: none;
-      border-radius: 999px;
-      width: 30px;
-      height: 30px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      background: rgba(15, 23, 42, 0.9);
-      color: var(--accent-white);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      font-size: 1.1rem;
-      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    .modal-close:hover {
-      background: rgba(30, 64, 175, 0.95);
-      border-color: var(--accent-blue);
-      transform: translateY(-1px);
-      box-shadow: 0 0 20px rgba(20, 184, 255, 0.65);
-    }
-
-    .modal-body {
-      flex: 1;
-      margin-top: 0.4rem;
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      background: rgba(15, 23, 42, 0.96);
-      padding: 1rem;
-      overflow: auto;
-      font-size: 0.9rem;
-    }
-
-    .project-app {
-      display: none;
-    }
-
-    .project-app.active {
-      display: block;
-    }
-
-    /* Tic Tac Toe */
-    .tictactoe-wrapper {
-      display: grid;
-      grid-template-columns: minmax(0, 280px) minmax(0, 1.5fr);
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .tictactoe-board {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.35rem;
-      background: rgba(15, 23, 42, 0.9);
-      padding: 0.4rem;
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-    }
-
-    .cell {
-      width: 80px;
-      height: 80px;
-      border-radius: 18px;
-      background: radial-gradient(circle at top, rgba(20, 184, 255, 0.18), transparent 60%), rgba(15, 23, 42, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Orbitron", system-ui, sans-serif;
-      font-size: 2rem;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
-    }
-
-    .cell:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent-blue);
-      box-shadow: 0 18px 30px rgba(20, 184, 255, 0.22);
-    }
-
-    .tictactoe-info {
-      font-size: 0.9rem;
-      color: var(--accent-white);
-    }
-
-    .status {
-      margin-bottom: 0.6rem;
-      color: var(--accent-yellow);
-      font-weight: 500;
-    }
-
-    .btn-sm {
-      padding: 0.35rem 0.9rem;
-      font-size: 0.78rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.96);
-      color: var(--accent-white);
-      cursor: pointer;
-      margin-top: 0.4rem;
-      transition: background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    .btn-sm:hover {
-      border-color: var(--accent-blue);
-      background: rgba(30, 64, 175, 0.9);
-      transform: translateY(-1px);
-      box-shadow: 0 0 18px rgba(20, 184, 255, 0.6);
-    }
-
-    /* Image Slider */
-    .slider {
-      max-width: 560px;
-      margin: 0 auto;
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.65);
-      background: radial-gradient(circle at top, rgba(20, 184, 255, 0.18), transparent 60%), rgba(15, 23, 42, 0.97);
-      padding: 1rem;
-    }
-
-    .slider-window {
-      position: relative;
-      overflow: hidden;
-      border-radius: 14px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: #020617;
-      height: 220px;
-    }
-
-    .slide {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      transform: translateX(100%);
-      opacity: 0;
-      transition: transform 0.45s ease, opacity 0.45s ease;
-    }
-
-    .slide.active {
-      transform: translateX(0);
-      opacity: 1;
-    }
-
-    .slide.bg1 {
-      background: radial-gradient(circle at top left, rgba(20, 184, 255, 0.55), transparent 70%), radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.6), transparent 70%);
-    }
-
-    .slide.bg2 {
-      background: radial-gradient(circle at top, rgba(255, 214, 79, 0.55), transparent 70%), radial-gradient(circle at bottom right, rgba(30, 64, 175, 0.6), transparent 70%);
-    }
-
-    .slide.bg3 {
-      background: radial-gradient(circle at top left, rgba(236, 72, 153, 0.55), transparent 70%), radial-gradient(circle at bottom, rgba(14, 165, 233, 0.6), transparent 70%);
-    }
-
-    .slide.bg4 {
-      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.6), transparent 70%), radial-gradient(circle at bottom left, rgba(251, 191, 36, 0.6), transparent 70%);
-    }
-
-    .slider-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 0.8rem;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    .slider-buttons {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .btn-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      background: rgba(15, 23, 42, 0.98);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1rem;
-      color: var(--accent-white);
-      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    .btn-icon:hover {
-      background: rgba(30, 64, 175, 0.9);
-      border-color: var(--accent-blue);
-      transform: translateY(-1px);
-      box-shadow: 0 0 20px rgba(20, 184, 255, 0.65);
-    }
-
-    /* Calculator */
-    .calculator {
-      max-width: 360px;
-      margin: 0 auto;
-      border-radius: 20px;
-      padding: 1rem;
-      background: radial-gradient(circle at top, rgba(20, 184, 255, 0.18), transparent 60%), rgba(15, 23, 42, 0.97);
-      border: 1px solid rgba(148, 163, 184, 0.75);
-      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
-    }
-
-    .calc-display {
-      background: #020617;
-      border-radius: 14px;
-      padding: 0.7rem;
-      font-family: "Orbitron", system-ui, sans-serif;
-      text-align: right;
-      font-size: 1.4rem;
-      border: 1px solid rgba(148, 163, 184, 0.9);
-      margin-bottom: 0.7rem;
-      min-height: 42px;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-    }
-
-    .calc-btn {
-      border-radius: 999px;
-      padding: 0.55rem 0.45rem;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.95);
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    .calc-btn.operator {
-      color: var(--accent-yellow);
-    }
-
-    .calc-btn.equal {
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow));
-      color: #020617;
-      font-weight: 600;
-      border: none;
-      box-shadow: 0 12px 32px rgba(20, 184, 255, 0.35);
-    }
-
-    .calc-btn:hover {
-      border-color: var(--accent-blue);
-      transform: translateY(-1px);
-      box-shadow: 0 0 16px rgba(20, 184, 255, 0.65);
-    }
-
-    /* Digital Clock */
-    .clock-card {
-      max-width: 420px;
-      margin: 0 auto;
-      padding: 1.1rem 1.2rem;
-      border-radius: 22px;
-      border: 1px solid rgba(148, 163, 184, 0.75);
-      background: radial-gradient(circle at top, rgba(20, 184, 255, 0.18), transparent 60%), rgba(15, 23, 42, 0.97);
-      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.95);
-    }
-
-    .clock-label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      margin-bottom: 0.5rem;
-    }
-
-    .clock-time {
-      font-family: "Orbitron", system-ui, sans-serif;
-      font-size: 2.3rem;
-      letter-spacing: 0.18em;
-      margin-bottom: 0.1rem;
-    }
-
-    .clock-date {
-      font-size: 0.85rem;
-      color: var(--accent-yellow);
-    }
-
-    /* Major Project */
-    .major-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 2.4fr) minmax(0, 2fr);
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .major-tag {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--accent-yellow);
-      margin-bottom: 0.4rem;
-    }
-
-    .major-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .major-meta {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 0.6rem;
-    }
-
-    .major-points {
-      font-size: 0.85rem;
-      color: var(--accent-white);
-    }
-
-    .major-points li {
-      margin-bottom: 0.35rem;
-    }
-
-    .major-preview {
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.75);
-      background: linear-gradient(135deg, rgba(20, 184, 255, 0.25), rgba(5, 150, 105, 0.25));
-      padding: 0.85rem;
-      position: relative;
-      overflow: hidden;
-      min-height: 220px;
-    }
-
-    .major-preview-inner {
-      position: absolute;
-      inset: 12px;
-      border-radius: 14px;
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(148, 163, 184, 0.65);
-      display: grid;
-      grid-template-rows: auto 1fr;
-      padding: 0.8rem;
-    }
-
-    .major-nav {
-      display: flex;
-      gap: 0.75rem;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
-    }
-
-    .major-pill {
-      border-radius: 999px;
-      padding: 0.2rem 0.7rem;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-    }
-
-    .major-hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 0.35rem;
-    }
-
-    .major-hero-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .major-hero-sub {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .major-hero-btn {
-      margin-top: 0.3rem;
-      align-self: flex-start;
-      border-radius: 999px;
-      border: none;
-      padding: 0.35rem 0.9rem;
-      font-size: 0.78rem;
-      cursor: pointer;
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow));
-      color: #020617;
-      font-weight: 500;
-      box-shadow: 0 8px 20px rgba(20, 184, 255, 0.35);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    }
-
-    .major-hero-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(20, 184, 255, 0.5);
-    }
-
-    /* Contact Section */
-    .contact-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 2.3fr) minmax(0, 2fr);
-      gap: 2rem;
-      margin-top: 1.8rem;
-    }
-
-    .contact-info-card,
-    .contact-form-card {
-      background: rgba(15, 23, 42, 0.97);
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      padding: 1.4rem 1.3rem;
-      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.95);
-    }
-
-    .contact-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-      margin-bottom: 0.25rem;
-    }
-
-    .contact-value {
-      font-size: 0.95rem;
-      color: var(--accent-white);
-      margin-bottom: 0.8rem;
-    }
-
-    .contact-highlight {
-      font-size: 0.85rem;
-      color: var(--accent-yellow);
-      margin-top: 0.6rem;
-    }
-
-    form {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      font-size: 0.85rem;
-    }
-
-    label {
-      color: var(--text-muted);
-    }
-
-    input,
-    textarea {
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.95);
-      padding: 0.55rem 0.9rem;
-      font-size: 0.85rem;
-      color: var(--accent-white);
-      outline: none;
-      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
-      font-family: inherit;
-    }
-
-    textarea {
-      border-radius: 16px;
-      min-height: 90px;
-      resize: vertical;
-      padding-top: 0.6rem;
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 18px rgba(20, 184, 255, 0.6);
-      background: #020617;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid rgba(148, 163, 184, 0.35);
-      padding: 1.1rem 1.25rem 1.5rem;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    .footer-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-
-    .footer-inner span {
-      color: var(--accent-yellow);
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .hero,
-      .about-grid,
-      .contact-layout,
-      .tictactoe-wrapper,
-      .major-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .hero-card {
-        order: -1;
-      }
-    }
-
-    @media (max-width: 700px) {
-      nav ul {
-        gap: 0.8rem;
-        font-size: 0.8rem;
-      }
-      .nav-container {
-        padding-inline: 1rem;
-      }
-      main {
-        padding-inline: 1rem;
-      }
-      .cell {
-        width: 70px;
-        height: 70px;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .cell {
-        width: 60px;
-        height: 60px;
-      }
-      .modal-inner {
-        padding: 0.9rem;
-      }
-      .modal-body {
-        padding: 0.7rem;
-      }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Akash — Portfolio</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg1: #9b9f9e; /* glacier light */
+    --bg2: #197a6b; /* glacier deep */
+    --accent: #000000;
+    --glass: rgba(255,255,255,0.06);
+    --glass-2: rgba(255,255,255,0.09);
+    --text: #ffb0b0;
+    --muted: rgba(232,255,247,0.75);
+    --shadow: 0 10px 30px rgba(5,20,20,0.45);
+    --card-shadow: 0 8px 28px rgba(6,18,20,0.5);
+    --glass-border: rgba(255,255,255,0.06);
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  /* Full page reset */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    min-height:100%;
+    color:var(--text);
+    background: linear-gradient(120deg,var(--bg1), var(--bg2));
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* Animated glacier gradient */
+  .bg-anim{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background: linear-gradient(120deg, #aef6df 0%, #80f2c8 25%, #2fb99c 50%, #197a6b 75%);
+    background-size: 400% 400%;
+    animation: glacierShift 18s linear infinite;
+    filter: contrast(1.02) saturate(1.05);
+  }
+  @keyframes glacierShift{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+
+  /* subtle radial overlay for depth */
+  .vignette{
+    position:fixed; inset:0; pointer-events:none;
+    background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02), transparent 10%),
+                radial-gradient(circle at 90% 90%, rgba(0,0,0,0.06), transparent 20%);
+    z-index:-1;
+  }
+
+  /* Layout */
+  header{
+    display:flex;
+    gap:20px;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 28px;
+    position:sticky; top:0;
+    backdrop-filter: blur(8px) saturate(1.1);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    z-index:10;
+    box-shadow: var(--shadow);
+  }
+
+  .brand{
+    display:flex; gap:14px; align-items:center;
+    text-decoration:none; color:var(--text);
+  }
+  .logo{
+    width:54px; height:54px; border-radius:12px;
+    display:grid; place-items:center; font-weight:800; font-size:18px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    box-shadow: var(--card-shadow);
+    border:1px solid var(--glass-border);
+  }
+
+  nav ul{list-style:none; margin:0; padding:0; display:flex; gap:14px; align-items:center}
+  nav a{
+    color:var(--muted);
+    text-decoration:none;
+    font-weight:600;
+    padding:8px 12px;
+    border-radius:8px;
+    transition:all .18s ease;
+    box-shadow: 0 6px 18px rgba(5,20,20,0.28);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    border:1px solid rgba(255,255,255,0.03);
+  }
+  nav a:hover, nav a:focus{ color:var(--text); transform:translateY(-3px); box-shadow: 0 14px 30px rgba(6,20,18,0.35) }
+
+  main{
+    padding:48px 6vw;
+    max-width:1100px;
+    margin:20px auto;
+  }
+
+  /* Hero */
+  .hero{
+    display:flex;
+    gap:28px;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:36px;
+    padding:36px;
+    border-radius:18px;
+    box-shadow: var(--card-shadow);
+    background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border:1px solid rgba(255,255,255,0.04);
+  }
+  .hero-left{
+    flex:1 1 60%;
+    min-width: 250px;
+  }
+  .eyebrow{
+    display:inline-block;
+    padding:6px 12px;
+    background: rgba(0,0,0,0.12);
+    color:var(--text);
+    border-radius:999px;
+    font-weight:600;
+    margin-bottom:18px;
+    box-shadow: 0 6px 16px rgba(3,12,12,0.25);
+  }
+  h1{
+    font-size: clamp(30px, 5vw, 54px);
+    margin:6px 0 8px;
+    line-height:1.02;
+    letter-spacing:-0.6px;
+    text-shadow: 0 6px 18px rgba(4,12,12,0.55);
+  }
+  .role{
+    color:var(--muted);
+    font-weight:500;
+    margin-bottom:18px;
+  }
+  .cta-row{display:flex; gap:12px; align-items:center;}
+  .btn{
+    padding:12px 18px;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    border: none;
+    outline: none;
+    transition:all .18s ease;
+    box-shadow: 0 10px 30px rgba(2,12,12,0.4);
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    color:var(--text);
+  }
+  .btn-primary{
+    background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border:1px solid rgba(255,255,255,0.06);
+  }
+  .btn-ghost{
+    background:transparent;
+    border:1px dashed rgba(255,255,255,0.06);
+  }
+  .btn:hover{transform:translateY(-4px); box-shadow: 0 20px 40px rgba(6,20,18,0.5)}
+
+  /* Hero right visual */
+  .visual{
+    width:240px; height:240px; border-radius:18px;
+    display:grid; place-items:center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.04);
+    box-shadow: var(--card-shadow);
+  }
+  .visual .name{
+    text-align:center;
+    font-weight:800;
+    font-size:22px;
+    color:var(--text);
+    letter-spacing:0.6px;
+  }
+  .visual .sub{color:var(--muted); margin-top:6px; font-weight:600; font-size:13px}
+
+  /* Sections */
+  section{ margin:28px 0; padding:22px; border-radius:14px; background:var(--glass); border:1px solid var(--glass-border); box-shadow: var(--card-shadow); }
+  section h2{ margin:6px 0 12px; font-size:20px }
+  .grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:18px; align-items:start; }
+
+  .card{
+    padding:16px; border-radius:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 8px 22px rgba(6,18,18,0.35);
+  }
+  .card h3{ margin:8px 0; font-size:16px }
+  .muted { color:var(--muted); font-size:14px }
+
+  /* contact form */
+  .contact-grid{ display:grid; grid-template-columns:1fr 320px; gap:18px; }
+  form input, form textarea{
+    width:100%; padding:12px; border-radius:10px; margin-bottom:10px;
+    background: rgba(0,0,0,0.06); border:1px solid rgba(255,255,255,0.03); color:var(--text);
+    outline:none; font-size:14px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  }
+  form button{ width:100%; padding:12px; border-radius:10px; font-weight:700; cursor:pointer; }
+
+  footer{ text-align:center; padding:28px 12px; color:var(--muted); font-size:13px; }
+
+  /* snow canvas on top of background but behind content */
+  #snow-canvas{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    mix-blend-mode: screen;
+  }
+
+  /* responsive tweaks */
+  @media (max-width:880px){
+    .hero{ flex-direction:column; align-items:flex-start }
+    .visual{ width:160px; height:160px; align-self:center }
+    .contact-grid{ grid-template-columns:1fr; }
+    nav ul{ display:none } /* small screens: keep simpler (could add hamburger later) */
+  }
+
+  /* small utility */
+  .pill{ display:inline-block; padding:6px 10px; border-radius:999px; background: rgba(255,255,255,0.03); font-weight:700 }
+</style>
 </head>
 <body>
-  <div class="bg-glow"></div>
+  <div class="bg-anim" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
 
-  <!-- NAVBAR -->
+  <canvas id="snow-canvas" aria-hidden="true"></canvas>
+
   <header>
-    <div class="nav-container">
-      <div class="brand">
-        <div class="brand-logo">A</div>
-        <div>
-          <div class="brand-text-main">Akash</div>
-          <div class="brand-text-sub">Digital Portfolio</div>
-        </div>
+    <a class="brand" href="#home" aria-label="Go to home">
+      <div class="logo" aria-hidden="true">AK</div>
+      <div style="line-height:1;">
+        <div style="font-weight:800">Akash</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:3px">Portfolio</div>
       </div>
-      <nav>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About Me</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
+    </a>
+
+    <nav aria-label="Main navigation">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- MAIN -->
-  <main>
-    <!-- HOME -->
-    <section id="home" class="hero">
-      <div>
-        <div class="badge">
-          <div class="badge-dot"></div>
-          Ready for the next big opportunity
-        </div>
-        <h1 class="hero-title">
-          Hi, I'm <span>Akash</span> — building, learning,<br />and innovating every single day.
-        </h1>
-        <p class="hero-text">
-          A focused and curious learner who enjoys mixing strong fundamentals with practical,
-          hands-on projects. This portfolio is a snapshot of how I think, build and grow as a
-          student and a developer.
-        </p>
-        <p class="hero-highlight">
-          Passionate about both <strong>academic excellence</strong> and
-          <strong>real-world problem solving</strong> — with clear goals in technology,
-          innovation and continuous improvement.
-        </p>
-        <div class="hero-actions">
-          <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">
-            View My Projects
-          </button>
-          <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
-            Contact Me
-          </button>
+  <main id="home">
+    <section class="hero" role="region" aria-labelledby="hero-title">
+      <div class="hero-left">
+        <div class="eyebrow">Hello, I'm</div>
+        <h1 id="hero-title">Akash — Digital Creator & Developer</h1>
+        <div class="role">Designing modern interfaces, subtle animations, and interactive web experiences.</div>
+
+        <div class="cta-row" style="margin-top:18px">
+          <button class="btn btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Hire / Contact</button>
+          <a class="btn btn-ghost" href="#projects">See Projects</a>
         </div>
       </div>
 
-      <div class="hero-card">
-        <div class="hero-card-orbit"></div>
-        <div class="hero-card-tags">
-          <span class="tag">Dedicated Student</span>
-          <span class="tag">Problem Solver</span>
-          <span class="tag">Neon UI Lover</span>
+      <div class="visual" aria-hidden="true">
+        <div class="name">AKASH</div>
+        <div class="sub">Glacier • Snow • Green</div>
+      </div>
+    </section>
+
+    <section id="about" aria-labelledby="about-title">
+      <h2 id="about-title">About</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Who I am</h3>
+          <p class="muted">I’m Akash — a front-end developer and designer who loves clean interfaces, subtle motion, and a glacier-green aesthetic. I make interactive websites and small web apps with HTML, CSS, and JavaScript.</p>
         </div>
 
-        <div class="hero-metrics">
-          <div class="metric">
-            <div class="metric-label">Mini Projects</div>
-            <div class="metric-value">04+</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">Major Project</div>
-            <div class="metric-value">01</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">Focus Areas</div>
-            <div class="metric-value">Web • Logic</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">Goal</div>
-            <div class="metric-value">Innovation</div>
-          </div>
+        <div class="card">
+          <h3>Skills</h3>
+          <p class="muted">HTML • CSS • JavaScript • Animations • Responsive design • Accessibility-conscious UI</p>
+        </div>
+
+        <div class="card">
+          <h3>Approach</h3>
+          <p class="muted">Design-first development: start with structure, refine visuals, add motion with purpose, and ensure performance.</p>
         </div>
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about">
-      <h2 class="section-title">About Me</h2>
-      <p class="section-subtitle">
-        A quick look at who I am, what drives me, and how I plan to grow in both academics
-        and technology.
-      </p>
+    <section id="projects" aria-labelledby="projects-title">
+      <h2 id="projects-title">Projects</h2>
+      <div class="grid">
+        <article class="card" aria-labelledby="p1">
+          <h3 id="p1">Glacier Weather UI</h3>
+          <p class="muted">A clean weather UI with animated gradient background and snow overlay. Built with pure JS and CSS.</p>
+        </article>
 
-      <div class="about-grid">
-        <div class="about-card">
-          <h3>Who I Am</h3>
-          <p class="about-text">
-            <!-- TODO: update this paragraph with your real introduction -->
-            I am Akash, a student who believes that strong fundamentals, disciplined practice
-            and curiosity are the real superpowers. I enjoy understanding how things work from
-            the inside and then using that knowledge to create clean, practical solutions.
-          </p>
+        <article class="card" aria-labelledby="p2">
+          <h3 id="p2">Interactive Portfolio</h3>
+          <p class="muted">Single-file portfolio with subtle glassmorphism and animations — made for speed and presentation.</p>
+        </article>
 
-          <ul class="about-list">
-            <!-- TODO: adjust these bullet points to match your real passions -->
-            <li><span>•</span> Passionate about <strong>web development</strong> and building interactive UIs.</li>
-            <li><span>•</span> Equally focused on <strong>academic performance</strong> and conceptual clarity.</li>
-            <li><span>•</span> Love structuring my work with <strong>clean, readable, and maintainable code</strong>.</li>
-            <li><span>•</span> Always open to <strong>feedback</strong> and improving my projects step by step.</li>
-          </ul>
-
-          <h3 style="margin-top: 1rem;">My Goals</h3>
-          <p class="about-text">
-            My short-term goal is to master modern web technologies and strengthen my problem-solving skills.
-            Long-term, I aim to contribute to meaningful projects that combine education, technology,
-            and real impact.
-          </p>
-        </div>
-
-        <div class="about-card">
-          <h3>Growth & Innovation Journey</h3>
-          <p class="about-text">
-            I treat every project as a chance to learn something new — from logic building in
-            games like Tic Tac Toe to interactive UI elements such as sliders, calculators and clocks.
-          </p>
-
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-title">Academic Excellence</div>
-              <div class="timeline-meta">
-                Staying consistent with my studies, focusing on understanding rather than memorizing.
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-title">Hands-on Practice</div>
-              <div class="timeline-meta">
-                Building small but complete projects that are fully functional and user-friendly.
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-title">Innovation Mindset</div>
-              <div class="timeline-meta">
-                Experimenting with UI, interactivity and experiences that feel premium and polished.
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-title">Future Vision</div>
-              <div class="timeline-meta">
-                To work on larger systems and platforms where my code creates real-world value.
-              </div>
-            </div>
-          </div>
-        </div>
+        <article class="card" aria-labelledby="p3">
+          <h3 id="p3">3D Card Animations</h3>
+          <p class="muted">Cards with 3D tilt, depth shadows, and CSS transforms for a tactile experience.</p>
+        </article>
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section id="projects">
-      <h2 class="section-title">Projects</h2>
-      <p class="section-subtitle">
-        Every project opens in a centered full-screen modal. Click to explore fully functional
-        mini apps and my major project.
-      </p>
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact</h2>
 
-      <div class="projects-grid">
-        <div class="project-card" data-project="tic-tac-toe">
-          <div class="project-chip">Mini Project</div>
-          <div class="project-title">Tic Tac Toe</div>
-          <div class="project-desc">
-            A classic game built with clean logic and clear winner detection — demonstrating
-            control flow, conditions and state management.
-          </div>
-          <div class="project-open">
-            Open Project <span>↗</span>
-          </div>
-        </div>
-
-        <div class="project-card" data-project="image-slider">
-          <div class="project-chip">Mini Project</div>
-          <div class="project-title">Neon Image Slider</div>
-          <div class="project-desc">
-            A smooth, fully functional slider that moves between different neon-themed panels
-            using JavaScript.
-          </div>
-          <div class="project-open">
-            Open Project <span>↗</span>
-          </div>
-        </div>
-
-        <div class="project-card" data-project="calculator">
-          <div class="project-chip">Mini Project</div>
-          <div class="project-title">Smart Calculator</div>
-          <div class="project-desc">
-            A basic but powerful calculator that handles operations and expressions using
-            JavaScript.
-          </div>
-          <div class="project-open">
-            Open Project <span>↗</span>
-          </div>
-        </div>
-
-        <div class="project-card" data-project="digital-clock">
-          <div class="project-chip">Mini Project</div>
-          <div class="project-title">Digital Clock</div>
-          <div class="project-desc">
-            A live, auto-updating digital clock displaying current time and date with a clean
-            neon layout.
-          </div>
-          <div class="project-open">
-            Open Project <span>↗</span>
-          </div>
-        </div>
-
-        <div class="project-card" data-project="major-project">
-          <div class="project-chip">Major Project</div>
-          <div class="project-title">
-            <!-- TODO: replace with your real major project title -->
-            Gurukulam Hud & Nursery – Education Center Website
-          </div>
-          <div class="project-desc">
-            <!-- TODO: update this description to match your actual major project -->
-            A multi-page educational website concept focusing on courses, activities and a
-            clean experience for parents and students.
-          </div>
-          <div class="project-open">
-            Open Project <span>↗</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <h2 class="section-title">Contact</h2>
-      <p class="section-subtitle">
-        If you’d like to know more about my work, projects or journey, feel free to reach out.
-      </p>
-
-      <div class="contact-layout">
-        <div class="contact-info-card">
-          <div class="contact-label">Primary Email</div>
-          <div class="contact-value">
-            <!-- TODO: replace with your real email -->
-            akash.example@email.com
-          </div>
-
-          <div class="contact-label">Availability</div>
-          <div class="contact-value">
-            Open for academic collaborations, project discussions and learning opportunities.
-          </div>
-
-          <div class="contact-label">What I Value</div>
-          <div class="contact-value">
-            Clear communication, honest feedback, and chances to build something meaningful.
-          </div>
-
-          <div class="contact-highlight">
-            Let’s build, learn and innovate together.
-          </div>
-        </div>
-
-        <div class="contact-form-card">
-          <form id="contactForm">
-            <div class="field">
-              <label for="name">Name</label>
-              <input id="name" type="text" placeholder="Enter your name" />
-            </div>
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" type="email" placeholder="Enter your email" />
-            </div>
-            <div class="field">
-              <label for="message">Message</label>
-              <textarea id="message" placeholder="Write your message here"></textarea>
-            </div>
-            <button type="submit" class="btn-primary">
-              Submit Message
-            </button>
+      <div class="contact-grid" role="form" aria-label="Contact form and info">
+        <div>
+          <form id="contactForm" onsubmit="submitContact(event)" autocomplete="off">
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+            <input type="email" id="email" name="email" placeholder="Your email" required />
+            <textarea id="message" name="message" rows="5" placeholder="Message..." required></textarea>
+            <button class="btn btn-primary" type="submit">Send Message</button>
           </form>
+          <div id="formStatus" style="margin-top:12px;color:var(--muted);"></div>
         </div>
+
+        <aside class="card" style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+          <div><strong>Akash</strong></div>
+          <div class="muted">Frontend Developer & Designer</div>
+          <div style="margin-top:8px">
+            <div class="pill">Email</div>
+            <div style="margin-top:6px" class="muted">akash@example.com</div>
+          </div>
+          <div style="margin-top:10px">
+            <div class="pill">Location</div>
+            <div class="muted" style="margin-top:6px">India</div>
+          </div>
+        </aside>
       </div>
     </section>
+
+    <footer>
+      <div>© <span id="year"></span> Akash — Crafted with glacier green & falling snow.</div>
+    </footer>
   </main>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div>© <span>Akash</span> • All rights reserved.</div>
-    </div>
-  </footer>
+<script>
+  // set copyright year
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-  <!-- PROJECT MODAL -->
-  <div id="projectModal" class="modal">
-    <div class="modal-inner">
-      <div class="modal-header">
-        <div class="modal-title" id="modalTitle">Project</div>
-        <button class="modal-close" id="modalClose" aria-label="Close project">✕</button>
-      </div>
-      <div class="modal-body">
-        <!-- Tic Tac Toe -->
-        <div class="project-app" id="tic-tac-toe">
-          <div class="tictactoe-wrapper">
-            <div class="tictactoe-board" id="tictactoeBoard">
-              <div class="cell" data-cell-index="0"></div>
-              <div class="cell" data-cell-index="1"></div>
-              <div class="cell" data-cell-index="2"></div>
-              <div class="cell" data-cell-index="3"></div>
-              <div class="cell" data-cell-index="4"></div>
-              <div class="cell" data-cell-index="5"></div>
-              <div class="cell" data-cell-index="6"></div>
-              <div class="cell" data-cell-index="7"></div>
-              <div class="cell" data-cell-index="8"></div>
-            </div>
-            <div class="tictactoe-info">
-              <div class="status" id="tictactoeStatus">Current Player: X</div>
-              <p>
-                The goal is simple: get three in a row horizontally, vertically or diagonally.
-                This project shows how I handle game state, turn switching and winner checking.
-              </p>
-              <button class="btn-sm" id="tictactoeReset">Reset Game</button>
-            </div>
-          </div>
-        </div>
+  // contact form (demo-only; won't actually send)
+  function submitContact(e){
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const status = document.getElementById('formStatus');
 
-        <!-- Image Slider -->
-        <div class="project-app" id="image-slider">
-          <div class="slider">
-            <div class="slider-window">
-              <div class="slide bg1 active">Slide One</div>
-              <div class="slide bg2">Slide Two</div>
-              <div class="slide bg3">Slide Three</div>
-              <div class="slide bg4">Slide Four</div>
-            </div>
-            <div class="slider-controls">
-              <div>Use the arrows to slide through neon panels.</div>
-              <div class="slider-buttons">
-                <button class="btn-icon" id="prevSlide" aria-label="Previous slide">⟵</button>
-                <button class="btn-icon" id="nextSlide" aria-label="Next slide">⟶</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Calculator -->
-        <div class="project-app" id="calculator">
-          <div class="calculator">
-            <div class="calc-display" id="calcDisplay">0</div>
-            <div class="calc-grid">
-              <button class="calc-btn operator" data-calc="C">C</button>
-              <button class="calc-btn operator" data-calc="DEL">DEL</button>
-              <button class="calc-btn operator" data-calc="%">%</button>
-              <button class="calc-btn operator" data-calc="/">÷</button>
-
-              <button class="calc-btn" data-calc="7">7</button>
-              <button class="calc-btn" data-calc="8">8</button>
-              <button class="calc-btn" data-calc="9">9</button>
-              <button class="calc-btn operator" data-calc="*">×</button>
-
-              <button class="calc-btn" data-calc="4">4</button>
-              <button class="calc-btn" data-calc="5">5</button>
-              <button class="calc-btn" data-calc="6">6</button>
-              <button class="calc-btn operator" data-calc="-">−</button>
-
-              <button class="calc-btn" data-calc="1">1</button>
-              <button class="calc-btn" data-calc="2">2</button>
-              <button class="calc-btn" data-calc="3">3</button>
-              <button class="calc-btn operator" data-calc="+">+</button>
-
-              <button class="calc-btn" data-calc="0">0</button>
-              <button class="calc-btn" data-calc=".">.</button>
-              <button class="calc-btn equal" data-calc="=">=</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Digital Clock -->
-        <div class="project-app" id="digital-clock">
-          <div class="clock-card">
-            <div class="clock-label">Live Digital Clock</div>
-            <div class="clock-time" id="clockTime">--:--:--</div>
-            <div class="clock-date" id="clockDate">Loading current date...</div>
-          </div>
-        </div>
-
-        <!-- Major Project -->
-        <div class="project-app" id="major-project">
-          <div class="major-grid">
-            <div>
-              <div class="major-tag">Major Project</div>
-              <div class="major-title">
-                <!-- TODO: replace with your major project title -->
-                Gurukulam Hud & Nursery – Education Center Website
-              </div>
-              <div class="major-meta">
-                <!-- TODO: adjust this text to describe your tech stack and goals -->
-                Concept website focused on giving parents, students and teachers a clean and
-                informative digital experience.
-              </div>
-              <ul class="major-points">
-                <li>• Multi-section layout for introduction, activities and contact details.</li>
-                <li>• Focus on clarity, readability and student-friendly visuals.</li>
-                <li>• Designed with blue and yellow educational theme in mind.</li>
-                <li>• Shows my ability to structure a complete website from scratch.</li>
-              </ul>
-            </div>
-            <div class="major-preview">
-              <div class="major-preview-inner">
-                <div class="major-nav">
-                  <div class="major-pill">Home</div>
-                  <div class="major-pill">Activities</div>
-                  <div class="major-pill">Admissions</div>
-                  <div class="major-pill">Contact</div>
-                </div>
-                <div class="major-hero">
-                  <div class="major-hero-title">Learning that feels like home.</div>
-                  <div class="major-hero-sub">
-                    A calm, student-friendly interface to explore classes, events and school
-                    culture – all in one place.
-                  </div>
-                  <button class="major-hero-btn" type="button">
-                    Simulated Demo View
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- End of project-apps -->
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // ---------- PROJECT MODAL ----------
-    const modal = document.getElementById("projectModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalClose = document.getElementById("modalClose");
-    const projectCards = document.querySelectorAll(".project-card");
-    const projectApps = document.querySelectorAll(".project-app");
-
-    function openProject(projectId) {
-      projectApps.forEach((app) => app.classList.remove("active"));
-      const activeApp = document.getElementById(projectId);
-      if (activeApp) {
-        activeApp.classList.add("active");
-      }
-      // Set modal title
-      const card = Array.from(projectCards).find(
-        (c) => c.dataset.project === projectId
-      );
-      modalTitle.textContent = card
-        ? card.querySelector(".project-title").textContent
-        : "Project";
-      modal.classList.add("show");
+    if(!name || !email || !message){
+      status.textContent = 'Please fill all fields.';
+      return;
     }
 
-    function closeModal() {
-      modal.classList.remove("show");
-      projectApps.forEach((app) => app.classList.remove("active"));
-    }
+    // Simulate send + reset
+    status.textContent = 'Sending message...';
+    setTimeout(() => {
+      status.textContent = 'Thanks, ' + (name.split(' ')[0] || name) + '! Your message has been received (demo).';
+      document.getElementById('contactForm').reset();
+    }, 900);
+  }
 
-    projectCards.forEach((card) => {
-      card.addEventListener("click", () => {
-        const projectId = card.dataset.project;
-        openProject(projectId);
-      });
-    });
+  /* Snow effect using canvas - lightweight particle system */
+  (function(){
+    const canvas = document.getElementById('snow-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    const flakes = [];
+    const flakeCount = Math.min(160, Math.floor((width * height) / 6000)); // scale with screen
 
-    modalClose.addEventListener("click", closeModal);
+    function rand(min,max){ return Math.random()*(max-min)+min; }
 
-    modal.addEventListener("click", (event) => {
-      if (event.target === modal) {
-        closeModal();
-      }
-    });
-
-    // ---------- TIC TAC TOE ----------
-    const tictactoeBoard = document.getElementById("tictactoeBoard");
-    const tictactoeStatus = document.getElementById("tictactoeStatus");
-    const tictactoeReset = document.getElementById("tictactoeReset");
-    let tictactoeState = Array(9).fill("");
-    let currentPlayer = "X";
-    let isGameActive = true;
-
-    const winningConditions = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    function updateStatus(message) {
-      tictactoeStatus.textContent = message;
-    }
-
-    function handleCellClick(event) {
-      const cell = event.target;
-      const cellIndex = cell.getAttribute("data-cell-index");
-
-      if (!isGameActive || tictactoeState[cellIndex] !== "") return;
-
-      tictactoeState[cellIndex] = currentPlayer;
-      cell.textContent = currentPlayer;
-
-      checkResult();
-    }
-
-    function checkResult() {
-      let roundWon = false;
-
-      for (let i = 0; i < winningConditions.length; i++) {
-        const [a, b, c] = winningConditions[i];
-        const valA = tictactoeState[a];
-        const valB = tictactoeState[b];
-        const valC = tictactoeState[c];
-
-        if (valA === "" || valB === "" || valC === "") {
-          continue;
-        }
-        if (valA === valB && valB === valC) {
-          roundWon = true;
-          break;
-        }
-      }
-
-      if (roundWon) {
-        updateStatus(Winner: ${currentPlayer});
-        isGameActive = false;
-        return;
-      }
-
-      if (!tictactoeState.includes("")) {
-        updateStatus("It's a draw!");
-        isGameActive = false;
-        return;
-      }
-
-      currentPlayer = currentPlayer === "X" ? "O" : "X";
-      updateStatus(Current Player: ${currentPlayer});
-    }
-
-    function resetGame() {
-      tictactoeState = Array(9).fill("");
-      currentPlayer = "X";
-      isGameActive = true;
-      document
-        .querySelectorAll("#tictactoeBoard .cell")
-        .forEach((cell) => (cell.textContent = ""));
-      updateStatus(Current Player: ${currentPlayer});
-    }
-
-    tictactoeBoard.addEventListener("click", (event) => {
-      if (event.target.classList.contains("cell")) {
-        handleCellClick(event);
-      }
-    });
-
-    tictactoeReset.addEventListener("click", resetGame);
-
-    // ---------- IMAGE SLIDER ----------
-    const slides = document.querySelectorAll(".slide");
-    const prevSlide = document.getElementById("prevSlide");
-    const nextSlide = document.getElementById("nextSlide");
-    let currentSlideIndex = 0;
-
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle("active", i === index);
+    for(let i=0;i<flakeCount;i++){
+      flakes.push({
+        x: rand(0,width),
+        y: rand(0,height),
+        r: rand(1.2,4.4),
+        d: rand(0.5,2.2),
+        vx: rand(-0.25,0.45),
+        vy: rand(0.2,1.0),
+        a: rand(0,Math.PI*2),
+        swing: rand(10,40)
       });
     }
 
-    function next() {
-      currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-      showSlide(currentSlideIndex);
+    function resize(){
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     }
+    window.addEventListener('resize', resize, {passive:true});
 
-    function prev() {
-      currentSlideIndex =
-        (currentSlideIndex - 1 + slides.length) % slides.length;
-      showSlide(currentSlideIndex);
-    }
+    let t = 0;
+    function draw(){
+      ctx.clearRect(0,0,width,height);
+      // subtle glow / blend
+      ctx.fillStyle = 'rgba(255,255,255,0.02)';
+      ctx.fillRect(0,0,width,height);
 
-    nextSlide.addEventListener("click", next);
-    prevSlide.addEventListener("click", prev);
+      for(let i=0;i<flakes.length;i++){
+        const f = flakes[i];
+        // oscillate horizontally for natural fall
+        f.a += 0.01 * f.d;
+        f.x += Math.sin(f.a) * 0.6 + f.vx;
+        f.y += f.vy * f.d;
 
-    // ---------- CALCULATOR ----------
-    const calcDisplay = document.getElementById("calcDisplay");
-    const calcButtons = document.querySelectorAll(".calc-btn");
-    let calcCurrent = "0";
-
-    function updateCalcDisplay() {
-      calcDisplay.textContent = calcCurrent || "0";
-    }
-
-    function handleCalcInput(value) {
-      if (value === "C") {
-        calcCurrent = "0";
-        updateCalcDisplay();
-        return;
-      }
-
-      if (value === "DEL") {
-        calcCurrent = calcCurrent.slice(0, -1) || "0";
-        updateCalcDisplay();
-        return;
-      }
-
-      if (value === "=") {
-        try {
-          const expression = calcCurrent.replace(/÷/g, "/").replace(/×/g, "*");
-          const result = eval(expression); // Using eval carefully for this controlled calculator
-          calcCurrent = String(result);
-        } catch (e) {
-          calcCurrent = "Error";
+        // wrap
+        if(f.x > width + 20) f.x = -20;
+        if(f.x < -20) f.x = width + 20;
+        if(f.y > height + 20){
+          f.y = -10;
+          f.x = rand(0,width);
         }
-        updateCalcDisplay();
-        return;
+
+        // draw with radial gradient for soft flakes
+        const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r*3);
+        g.addColorStop(0, 'rgba(255,255,255,0.95)');
+        g.addColorStop(0.3, 'rgba(255,255,255,0.6)');
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.beginPath();
+        ctx.fillStyle = g;
+        ctx.arc(f.x, f.y, f.r*2.2, 0, Math.PI*2);
+        ctx.fill();
       }
 
-      if (calcCurrent === "0" && value !== ".") {
-        calcCurrent = value;
-      } else {
-        calcCurrent += value;
-      }
-      updateCalcDisplay();
+      t += 0.01;
+      requestAnimationFrame(draw);
     }
 
-    calcButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const value = btn.getAttribute("data-calc");
-        handleCalcInput(value);
-      });
-    });
-
-    // ---------- DIGITAL CLOCK ----------
-    const clockTime = document.getElementById("clockTime");
-    const clockDate = document.getElementById("clockDate");
-
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, "0");
-      const minutes = String(now.getMinutes()).padStart(2, "0");
-      const seconds = String(now.getSeconds()).padStart(2, "0");
-      clockTime.textContent = ${hours}:${minutes}:${seconds};
-
-      const options = { weekday: "short", year: "numeric", month: "short", day: "numeric" };
-      clockDate.textContent = now.toLocaleDateString(undefined, options);
-    }
-
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // ---------- CONTACT FORM ----------
-    const contactForm = document.getElementById("contactForm");
-
-    contactForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const message = document.getElementById("message").value.trim();
-
-      if (!name || !email || !message) {
-        alert("Please fill in your name, email and message before submitting.");
-        return;
-      }
-
-      alert(
-        Thank you, ${name}! Your message has been recorded. I will get back to you at ${email}.
-      );
-      contactForm.reset();
-    });
-
-    // ---------- SMALL UX TOUCH: ESC KEY CLOSE ----------
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && modal.classList.contains("show")) {
-        closeModal();
+    // reduce animation on hidden tabs to save CPU
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){
+        // nothing to do: requestAnimationFrame will naturally throttle
       }
     });
-  </script>
+
+    draw();
+  })();
+
+  // small keyboard nav: number keys go to sections
+  document.addEventListener('keydown', function(e){
+    if(e.key === '1') location.hash = '#home';
+    if(e.key === '2') location.hash = '#about';
+    if(e.key === '3') location.hash = '#projects';
+    if(e.key === '4') location.hash = '#contact';
+  });
+</script>
 </body>
 </html>
