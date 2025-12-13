@@ -300,6 +300,7 @@
         <article class="card" aria-labelledby="p1">
           <h3 id="p1">Glacier Weather UI</h3>
           <p class="muted">A clean weather UI with animated gradient background and snow overlay. Built with pure JS and CSS.</p>
+           <a href="file:///C:/Users/akash%20kumar/OneDrive/Desktop/akashh/calculater.html">calculater</a>
         </article>
 
         <article class="card" aria-labelledby="p2">
